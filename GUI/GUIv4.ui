@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1500</width>
+    <height>1100</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QFrame" name="mainframe">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="currentIndex">
+          <number>2</number>
+         </property>
+         <widget class="QWidget" name="tabprimerorden">
+          <attribute name="title">
+           <string>Filtros Primer Orden</string>
+          </attribute>
+          <widget class="QWidget" name="verticalLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>80</y>
+             <width>781</width>
+             <height>391</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="bodeamplitudelayout_1"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>800</x>
+             <y>80</y>
+             <width>651</width>
+             <height>391</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="bodefaselayout_1"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_3">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>480</y>
+             <width>451</width>
+             <height>431</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="zeroeslayout_1"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_4">
+           <property name="geometry">
+            <rect>
+             <x>470</x>
+             <y>560</y>
+             <width>981</width>
+             <height>351</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="outputexcitationlayout_1"/>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>0</y>
+             <width>561</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="filtromenulayout_1">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labeltipofiltro_1">
+              <property name="text">
+               <string>Tipo de Filtro</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="labelganancia_1">
+              <property name="text">
+               <string>Ganancia</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QPlainTextEdit" name="editganancia_1"/>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPlainTextEdit" name="editpolo_1"/>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="labelpolo_1">
+              <property name="text">
+               <string>Polo</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPlainTextEdit" name="editcero_1"/>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="labelcero_1">
+              <property name="text">
+               <string>Cero</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QComboBox" name="filtertype_1">
+              <item>
+               <property name="text">
+                <string>Arbitrario</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Bajos</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Altos</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Todo</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Banda</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Notch</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget_3">
+           <property name="geometry">
+            <rect>
+             <x>470</x>
+             <y>480</y>
+             <width>601</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="entradamenulayout_1">
+            <item row="2" column="0">
+             <widget class="QComboBox" name="entrytype_1">
+              <item>
+               <property name="text">
+                <string>Senoide</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pulso</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pulso periodico</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="labelamplitud_1">
+              <property name="text">
+               <string>Amplitud</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPlainTextEdit" name="editamplitud_1"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labeltipoentrada_1">
+              <property name="text">
+               <string>Tipo de Entrada</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="labelfrecuencia_1">
+              <property name="text">
+               <string>Frecuencia</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPlainTextEdit" name="editfrecuencia_1"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_14">
+           <property name="geometry">
+            <rect>
+             <x>580</x>
+             <y>0</y>
+             <width>511</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="funciontransferencialayout_1"/>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tabsegundoorden">
+          <attribute name="title">
+           <string>Filtros Segundo Orden</string>
+          </attribute>
+          <widget class="QWidget" name="gridLayoutWidget_8">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>0</y>
+             <width>561</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="filtromenulayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labeltipofiltro_2">
+              <property name="text">
+               <string>Tipo de Filtro</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="labelw0_2">
+              <property name="text">
+               <string>w_0</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="labelxi_2">
+              <property name="text">
+               <string>xi</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="labelganancia_2">
+              <property name="text">
+               <string>Ganancia</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QComboBox" name="filtertype_2">
+              <item>
+               <property name="text">
+                <string>Arbitrario</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Bajos</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Altos</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Todo</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pasa Banda</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Notch</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPlainTextEdit" name="editw0_2"/>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPlainTextEdit" name="editxi_2"/>
+            </item>
+            <item row="1" column="3">
+             <widget class="QPlainTextEdit" name="editganancia_2"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_15">
+           <property name="geometry">
+            <rect>
+             <x>580</x>
+             <y>0</y>
+             <width>511</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="funciontransferencialayout_2"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_5">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>80</y>
+             <width>781</width>
+             <height>391</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="bodeamplitudelayout_2"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_6">
+           <property name="geometry">
+            <rect>
+             <x>800</x>
+             <y>80</y>
+             <width>651</width>
+             <height>391</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="bodefaselayout_2"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_7">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>480</y>
+             <width>451</width>
+             <height>431</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="zeroeslayout_2"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_8">
+           <property name="geometry">
+            <rect>
+             <x>470</x>
+             <y>560</y>
+             <width>981</width>
+             <height>351</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="outputexcitationlayout_2"/>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget_4">
+           <property name="geometry">
+            <rect>
+             <x>470</x>
+             <y>480</y>
+             <width>601</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="entradamenulayout_2">
+            <item row="1" column="0">
+             <widget class="QLabel" name="labeltipoentrada_2">
+              <property name="text">
+               <string>Tipo de Entrada</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QComboBox" name="entrytype_2">
+              <item>
+               <property name="text">
+                <string>Senoide</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pulso</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pulso periodico</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="labelamplitud_2">
+              <property name="text">
+               <string>Amplitud</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPlainTextEdit" name="editamplitud_2"/>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="labelfrecuencia_2">
+              <property name="text">
+               <string>Frecuencia</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPlainTextEdit" name="editfrecuencia_2"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tabrlc">
+          <attribute name="title">
+           <string>Transferencias RLC</string>
+          </attribute>
+          <widget class="QLabel" name="imagen_rlc">
+           <property name="geometry">
+            <rect>
+             <x>190</x>
+             <y>0</y>
+             <width>421</width>
+             <height>191</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>Electro.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_9">
+           <property name="geometry">
+            <rect>
+             <x>790</x>
+             <y>0</y>
+             <width>521</width>
+             <height>191</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="funciontransferencia_rlc"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_10">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>280</y>
+             <width>1441</width>
+             <height>261</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="outputlayout_rlc"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_11">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>560</y>
+             <width>741</width>
+             <height>351</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="bodeamplitudelayout_rlc"/>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_12">
+           <property name="geometry">
+            <rect>
+             <x>760</x>
+             <y>560</y>
+             <width>691</width>
+             <height>351</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="bodefaselayout_rlc"/>
+          </widget>
+          <widget class="QWidget" name="formLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>171</width>
+             <height>121</height>
+            </rect>
+           </property>
+           <layout class="QFormLayout" name="menu_rlc">
+            <item row="0" column="0">
+             <widget class="QLabel" name="r_label">
+              <property name="text">
+               <string>R</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QPlainTextEdit" name="edit_r"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="l_label">
+              <property name="text">
+               <string>L</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPlainTextEdit" name="edit_l"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="c_label">
+              <property name="text">
+               <string>C</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPlainTextEdit" name="edit_c"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget_7">
+           <property name="geometry">
+            <rect>
+             <x>620</x>
+             <y>0</y>
+             <width>151</width>
+             <height>191</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="potencialeslayout_rlc">
+            <item row="1" column="0" colspan="2">
+             <widget class="QCheckBox" name="invertcheck">
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>Invertir</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="V_a">
+              <property name="title">
+               <string/>
+              </property>
+              <widget class="QRadioButton" name="vbutton_2a">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>30</y>
+                 <width>71</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V2</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="vbutton_3a">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>70</y>
+                 <width>71</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V3</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="vbutton_4a">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>107</y>
+                 <width>71</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V4</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="vbutton_1a">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>71</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V1</string>
+               </property>
+              </widget>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QGroupBox" name="V_b">
+              <property name="title">
+               <string/>
+              </property>
+              <widget class="QRadioButton" name="vbutton_2b">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>30</y>
+                 <width>71</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V2</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="vbutton_3b">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>70</y>
+                 <width>71</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V3</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="vbutton_4b">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>107</y>
+                 <width>71</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V4</string>
+               </property>
+              </widget>
+              <widget class="QRadioButton" name="vbutton_1b">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>71</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>V1</string>
+               </property>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget_5">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>200</y>
+             <width>601</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="entradamenulayout_rlc">
+            <item row="2" column="0">
+             <widget class="QComboBox" name="entrytype_rlc">
+              <item>
+               <property name="text">
+                <string>Senoide</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pulso</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Pulso periodico</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPlainTextEdit" name="editamplitud_rlc"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="labelamplitud_rlc">
+              <property name="text">
+               <string>Amplitud</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPlainTextEdit" name="editfrecuencia_rlc"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labeltipoentrada_rlc">
+              <property name="text">
+               <string>Tipo de Entrada</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="labelfrecuencia_rlc">
+              <property name="text">
+               <string>Frecuencia</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
