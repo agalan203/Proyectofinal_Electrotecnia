@@ -1,4 +1,4 @@
-from GUI.GUIv5 import *
+from GUI.GUIv6 import *
 import numpy as np
 import sys
 import io
@@ -8,9 +8,10 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 
 import scipy.signal as signal
-import control
 
+import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from matplotlib.offsetbox import AnchoredText
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
@@ -109,6 +110,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.outputlayout_rlc.addWidget(NavigationToolbar(self.canvasrlc_out, self))
         self.outputlayout_rlc.addWidget(self.canvasrlc_out)
 
+        #Funcion transferencia Filtros 1er orden
+        self.figureTF_1 = Figure()
+        self.canvasTF_1 = FigureCanvas(self.figureTF_1)
+        self.axesTF_1 = self.figureTF_1.subplots()
+        self.funciontransferencialayout_1.addWidget(self.canvasTF_1)
+        self.axesTF_1.axis('off')
+
+        #Funcion transferencia Filtros 2do orden
+        self.figureTF_2 = Figure()
+        self.canvasTF_2 = FigureCanvas(self.figureTF_2)
+        self.axesTF_2 = self.figureTF_2.subplots()
+        self.funciontransferencialayout_2.addWidget(self.canvasTF_2)
+        self.axesTF_2.axis('off')
+
+        #Funcion transferencia RLC
+        self.figureTF_rlc = Figure()
+        self.canvasTF_rlc = FigureCanvas(self.figureTF_rlc)
+        self.axesTF_rlc = self.figureTF_rlc.subplots()
+        self.funciontransferencia_rlc.addWidget(self.canvasTF_rlc)
+        self.axesTF_rlc.axis('off')
+
     def updatePlots(self):
         # Filtros de 1er orden
         self.axes1_amp.set_xlabel('$Frecuencia [rad/s]$')
@@ -192,12 +214,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def updateTransferFunctions(self):
-        #TODO esto no supe como resolverlo
-        self.pixmapfunciontransferencia_1.setText("H(s) =" )
-        self.pixmapfunciontransferencia_2.setText("H(s) =")
-        self.pixmapfunciontransferencia_rlc.setText("H(s) =")
+        #Filtros 1er Orden
+        at = AnchoredText('$H(s) = \\frac{0}{0}$', prop=dict(size=17), frameon=False, loc='upper left')
+        at.patch.set_boxstyle("square,pad=0.")
+        self.axesTF_1.add_artist(at)
+        self.canvasTF_1.draw()
+
+        #Filtros 2do Orden
+        at = AnchoredText('$H(s) = \\frac{0}{0}$', prop=dict(size=17), frameon=False, loc='upper left')
+        at.patch.set_boxstyle("square,pad=0.")
+        self.axesTF_2.add_artist(at)
+        self.canvasTF_2.draw()
+
+        #RLC
+        at = AnchoredText('$H(s) = \\frac{0}{0}$', prop=dict(size=28), frameon=False, loc='upper left')
+        at.patch.set_boxstyle("square,pad=0.")
+        self.axesTF_rlc.add_artist(at)
+        self.canvasTF_rlc.draw()
 
 
+################################################################
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
