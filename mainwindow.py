@@ -1,3 +1,4 @@
+from hashlib import algorithms_available
 from GUI.GUIv7 import *
 import numpy as np
 import sys
@@ -32,6 +33,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.num_rlc = [0.0, 0.0, 0.0]
         self.denom_rlc = [0.0, 0.0, 1.0]
+
+        #Botones RLC
+        self.button_A = 0
+        self.button_B = 4
 
         #Updates
         self.validateEntries()
@@ -267,23 +272,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def updateTransferFunctions(self):
         #Filtros 1er Orden
-        numerator_1 = str(self.num_1[0]) + "s + " + str(self.num_1[1]) 
-        denominator_1 = str(self.denom_1[0]) + "s + " + str(self.denom_1[1])
+        sign = "+ " if (self.num_1[1] >= 0) else " "
+        numerator_1 = str(self.num_1[0]) + "s " + sign + str(self.num_1[1]) 
+
+        sign = "+ " if (self.denom_1[1] >= 0) else " "
+        denominator_1 = str(self.denom_1[0]) + "s " + sign + str(self.denom_1[1])
+
         self.at_1.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_1,denominator_1))
         self.axesTF_1.add_artist(self.at_1)
         self.canvasTF_1.draw()
 
         #Filtros 2do Orden
-        numerator_2 = str(self.num_2[0]) + "s² + " + str(self.num_2[1]) + "s + " + str(self.num_2[2]) 
-        denominator_2 = str(self.denom_2[0]) + "s² + " + str(self.denom_2[1]) + "s + " + str(self.denom_2[2])
+        sign = "+ " if (self.num_2[1] >= 0) else " "
+        sign2 = "+ " if (self.num_2[2] >= 0) else " "
+        numerator_2 = str(self.num_2[0]) + "s² " + sign + str(self.num_2[1]) + "s " + sign2 + str(self.num_2[2]) 
+
+        sign = "+ " if (self.denom_2[1] >= 0) else " "
+        sign2 = "+ " if (self.denom_2[2] >= 0) else " "
+        denominator_2 = str(self.denom_2[0]) + "s² " + sign + str(self.denom_2[1]) + "s " + sign2 + str(self.denom_2[2])
+        
         self.at_2.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_2,denominator_2))
         self.at_2.patch.set_boxstyle("square,pad=0.")
         self.axesTF_2.add_artist(self.at_2)
         self.canvasTF_2.draw()
 
         #RLC
-        numerator_rlc = str(self.num_rlc[0]) + "s² + " + str(self.num_rlc[1]) + "s + " + str(self.num_rlc[2]) 
-        denominator_rlc = str(self.denom_rlc[0]) + "s² + " + str(self.denom_rlc[1]) + "s + " + str(self.denom_rlc[2])
+        sign = "+ " if (self.num_rlc[1] >= 0) else " "
+        sign2 = "+ " if (self.num_rlc[2] >= 0) else " "
+        numerator_rlc = str(self.num_rlc[0]) + "s² " + sign + str(self.num_rlc[1]) + "s " + sign2 + str(self.num_rlc[2]) 
+
+        sign = "+ " if (self.denom_rlc[1] >= 0) else " "
+        sign2 = "+ " if (self.denom_rlc[2] >= 0) else " "
+        denominator_rlc = str(self.denom_rlc[0]) + "s² " + sign + str(self.denom_rlc[1]) + "s " + sign2 + str(self.denom_rlc[2])
+        
         self.at_rlc.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_rlc,denominator_rlc))
         self.at_rlc.patch.set_boxstyle("square,pad=0.")
         self.axesTF_rlc.add_artist(self.at_rlc)
@@ -317,7 +338,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except :
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("No puede haber entradas vacias, o con ',' ")
+            msg.setText("No puede haber entradas vacias, o con ',' \n No se puede dividir por 0")
             msg.setWindowTitle("Error")
             msg.exec_()
 
@@ -329,9 +350,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def bodeChanged_2(self):
         filterType_2 = self.filtertype_2.currentText()
-        w0_2 = float(self.editw0_2.text())
-        xi_2 = float(self.editxi_2.text())
-        ganancia_2 = float(self.editganancia_2.text())
+
+        try:
+            w0_2 = float(self.editw0_2.text())
+            xi_2 = float(self.editxi_2.text())
+            ganancia_2 = float(self.editganancia_2.text())
+        
+            #esto es para arbitrario
+            self.num_2[0] = 0.0 
+            self.num_2[1] = 0.0
+            self.num_2[2] = 1.0 * ganancia_2
+
+            self.denom_2[0] = 1.0
+            self.denom_2[1] = 2 * xi_2 / w0_2
+            self.denom_2[2] = w0_2 ** (-2)
+            
+            self.updateTransferFunctions()
+
+        except :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("No puede haber entradas vacias, o con ',' \n No se puede dividir por 0")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
     def entradaChanged_2(self):
         entrytype_2 = self.entrytype_2.currentText()
@@ -347,33 +388,109 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         frecentrada_rlc = float(self.editfrecuencia_rlc.text())
 
     def bodeChanged_rlc(self):
-        R = float(self.edit_r.text())
-        L = float(self.edit_l.text())
-        C = float(self.edit_c.text())
+        try:
+            R = float(self.edit_r.text())
+            L = float(self.edit_l.text())
+            C = float(self.edit_c.text())
+
+            termcuadrado = 0.0
+            termsimple = 0.0
+            termindep = 0.0
+
+            match (self.button_A):
+                case 1:
+                    termcuadrado += L * C
+                    termsimple += R
+                    termindep += 1.0
+                case 2:
+                    termcuadrado += L * C
+                    termsimple += 0.0
+                    termindep += 1.0
+                case 3: 
+                    termcuadrado += 0.0
+                    termsimple += 0.0
+                    termindep += 1.0
+                case 4:
+                    termcuadrado += 0.0
+                    termsimple += 0.0
+                    termindep += 0.0
+
+            match(self.button_B):
+                case 1:
+                    termcuadrado -= L * C
+                    termsimple -= R
+                    termindep -= 1.0
+                case 2:
+                    termcuadrado -= L * C
+                    termsimple -= 0.0
+                    termindep -= 1.0
+                case 3: 
+                    termcuadrado -= 0.0
+                    termsimple -= 0.0
+                    termindep -= 1.0
+                case 4:
+                    termcuadrado -= 0.0
+                    termsimple -= 0.0
+                    termindep -= 0.0
+        
+            #esto es para arbitrario
+            self.num_rlc[0] = termcuadrado
+            self.num_rlc[1] = C * termsimple
+            self.num_rlc[2] = termindep
+
+            self.denom_rlc[0] = L * C
+            self.denom_rlc[1] = R * C
+            self.denom_rlc[2] = 1.0
+            
+            self.updateTransferFunctions()
+
+        except :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("No puede haber entradas vacias, o con ',' ")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+        
 
     def vButton_1a(self):
-        button_A = 1
+        self.button_A = 1
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
     def vButton_2a(self):
-        button_A = 2
+        self.button_A = 2
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
     def vButton_3a(self):
-        button_A = 3
+        self.button_A = 3
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
     def vButton_4a(self):
-        button_A = 4
+        self.button_A = 4
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
     def vButton_1b(self):
-        button_B = 1
+        self.button_B = 1
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
     def vButton_2b(self):
-        button_B = 2
+        self.button_B = 2
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
     def vButton_3b(self):
-        button_B = 3
+        self.button_B = 3
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
     def vButton_4b(self):
-        button_B = 4
+        self.button_B = 4
+        self.bodeChanged_rlc()
+        self.entradaChanged_rlc()
 
 ################################################################
 
