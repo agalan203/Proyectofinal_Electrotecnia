@@ -34,8 +34,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.denom_rlc = [0.0, 0.0, 1.0]
 
         #Updates
-        self.setTrasferFuncions()
         self.validateEntries()
+        self.setTrasferFuncions()
         self.updatePlots()
         self.updateTransferFunctions()
 
@@ -58,25 +58,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.edit_c.setValidator(QtGui.QDoubleValidator(-10e16, 10e16, 8, self))
         self.editfrecuencia_rlc.setValidator(QtGui.QDoubleValidator(-10e16, 10e16, 8, self))
         self.editamplitud_rlc.setValidator(QtGui.QDoubleValidator(-10e16, 10e16, 8, self))
-
-        #Llenar valores
-        self.editcero_1.setText("0.0")
-        self.editpolo_1.setText("0.0")
-        self.editganancia_1.setText("1.0")
-        self.editfrecuencia_1.setText("0.0")
-        self.editamplitud_1.setText("0.0")
-
-        self.editw0_2.setText("0.0")
-        self.editxi_2.setText("0.0")
-        self.editganancia_2.setText("1.0")
-        self.editfrecuencia_2.setText("0.0")
-        self.editamplitud_2.setText("0.0")
-
-        self.edit_r.setText("0.0")
-        self.edit_l.setText("0.0")
-        self.edit_c.setText("0.0")
-        self.editfrecuencia_rlc.setText("0.0")
-        self.editamplitud_rlc.setText("0.0")
         
     def initGraphs(self):
         #GRAFICOS
@@ -309,7 +290,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.canvasTF_rlc.draw()
 
     #Callbacks
-    def changeFilterType_1(self):
+    def bodeChanged_1(self):
         filterType_1 = self.filtertype_1.currentText()
         try:
             cero_1 = float(self.editcero_1.text())
@@ -341,29 +322,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             msg.exec_()
 
 
-    def changeEntryType_1(self):
+    def entradaChanged_1(self):
         entrytype_1 = self.entrytype_1.currentText()
-        ampentrada_1 = float(self.editAmp_1.text())
-        frecentrada_1 = float(self.editFrec_1.text())
+        ampentrada_1 = float(self.editamplitud_1.text())
+        frecentrada_1 = float(self.editfrecuencia_1.text())
 
-    def changeFilterType_2(self):
+    def bodeChanged_2(self):
         filterType_2 = self.filtertype_2.currentText()
         w0_2 = float(self.editw0_2.text())
         xi_2 = float(self.editxi_2.text())
         ganancia_2 = float(self.editganancia_2.text())
 
-    def changeEntryType_2(self):
+    def entradaChanged_2(self):
         entrytype_2 = self.entrytype_2.currentText()
-        ampentrada_2 = float(self.editAmp_2.text())
-        frecentrada_2 = float(self.editFrec_2.text())
+        ampentrada_2 = float(self.editamplitud_2.text())
+        frecentrada_2 = float(self.editfrecuencia_2.text())
 
-    def changeEntryType_rlc(self):
+    def entradaChanged_rlc(self):
         entrytype_rlc = self.entrytype_rlc.currentText()
         R = float(self.edit_r.text())
         L = float(self.edit_l.text())
         C = float(self.edit_c.text())
-        ampentrada_rlc = float(self.editAmp_rlc.text())
-        frecentrada_rlc = float(self.editFrec_rlc.text())
+        ampentrada_rlc = float(self.editamplitud_rlc.text())
+        frecentrada_rlc = float(self.editfrecuencia_rlc.text())
+
+    def bodeChanged_rlc(self):
+        R = float(self.edit_r.text())
+        L = float(self.edit_l.text())
+        C = float(self.edit_c.text())
 
     def vButton_1a(self):
         button_A = 1

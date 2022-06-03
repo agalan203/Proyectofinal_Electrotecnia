@@ -346,19 +346,36 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
-        self.filtertype_1.activated['int'].connect(MainWindow.changeFilterType_1) # type: ignore
-        self.entrytype_1.activated['int'].connect(MainWindow.changeEntryType_1) # type: ignore
-        self.filtertype_2.activated['int'].connect(MainWindow.changeEntryType_2) # type: ignore
-        self.entrytype_2.activated['int'].connect(MainWindow.changeFilterType_2) # type: ignore
-        self.entrytype_rlc.activated['int'].connect(MainWindow.changeEntryType_rlc) # type: ignore
-        self.vbutton_1a.clicked.connect(MainWindow.vButton_1a) # type: ignore
-        self.vbutton_2a.clicked.connect(MainWindow.vButton_2a) # type: ignore
-        self.vbutton_3a.clicked.connect(MainWindow.vButton_3a) # type: ignore
-        self.vbutton_4a.clicked.connect(MainWindow.vButton_4a) # type: ignore
-        self.vbutton_1b.clicked.connect(MainWindow.vButton_1b) # type: ignore
-        self.vbutton_2b.clicked.connect(MainWindow.vButton_2b) # type: ignore
-        self.vbutton_3b.clicked.connect(MainWindow.vButton_3b) # type: ignore
-        self.vbutton_4b.clicked.connect(MainWindow.vButton_4b) # type: ignore
+        self.filtertype_1.activated['int'].connect(MainWindow.bodeChanged_1)
+        self.entrytype_1.activated['int'].connect(MainWindow.entradaChanged_1)
+        self.filtertype_2.activated['int'].connect(MainWindow.bodeChanged_2)
+        self.entrytype_2.activated['int'].connect(MainWindow.entradaChanged_2)
+        self.entrytype_rlc.activated['int'].connect(MainWindow.entradaChanged_rlc)
+
+        self.editcero_1.textChanged.connect(MainWindow.bodeChanged_1)
+        self.editpolo_1.textChanged.connect(MainWindow.bodeChanged_1)
+        self.editganancia_1.textChanged.connect(MainWindow.bodeChanged_1)
+        self.editfrecuencia_1.textChanged.connect(MainWindow.entradaChanged_1)
+        self.editamplitud_1.textChanged.connect(MainWindow.entradaChanged_1)
+        self.editw0_2.textChanged.connect(MainWindow.bodeChanged_2)
+        self.editxi_2.textChanged.connect(MainWindow.bodeChanged_2)
+        self.editganancia_2.textChanged.connect(MainWindow.bodeChanged_2)
+        self.editfrecuencia_2.textChanged.connect(MainWindow.entradaChanged_2)
+        self.editamplitud_2.textChanged.connect(MainWindow.entradaChanged_2)
+        self.edit_r.textChanged.connect(MainWindow.bodeChanged_rlc)
+        self.edit_l.textChanged.connect(MainWindow.bodeChanged_rlc)
+        self.edit_c.textChanged.connect(MainWindow.bodeChanged_rlc)
+        self.editfrecuencia_rlc.textChanged.connect(MainWindow.entradaChanged_rlc)
+        self.editamplitud_rlc.textChanged.connect(MainWindow.entradaChanged_rlc)
+
+        self.vbutton_1a.clicked.connect(MainWindow.vButton_1a)
+        self.vbutton_2a.clicked.connect(MainWindow.vButton_2a)
+        self.vbutton_3a.clicked.connect(MainWindow.vButton_3a)
+        self.vbutton_4a.clicked.connect(MainWindow.vButton_4a)
+        self.vbutton_1b.clicked.connect(MainWindow.vButton_1b)
+        self.vbutton_2b.clicked.connect(MainWindow.vButton_2b)
+        self.vbutton_3b.clicked.connect(MainWindow.vButton_3b)
+        self.vbutton_4b.clicked.connect(MainWindow.vButton_4b)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -415,6 +432,23 @@ class Ui_MainWindow(object):
         self.labelamplitud_rlc.setText(_translate("MainWindow", "Amplitud"))
         self.labeltipoentrada_rlc.setText(_translate("MainWindow", "Tipo de Entrada"))
         self.labelfrecuencia_rlc.setText(_translate("MainWindow", "Frecuencia"))
+        self.editcero_1.setText(_translate("MainWindow","0.0"))
+        self.editpolo_1.setText(_translate("MainWindow","0.0"))
+        self.editganancia_1.setText(_translate("MainWindow","1.0"))
+        self.editfrecuencia_1.setText(_translate("MainWindow","0.0"))
+        self.editamplitud_1.setText(_translate("MainWindow","0.0"))
+
+        self.editw0_2.setText(_translate("MainWindow","0.0"))
+        self.editxi_2.setText(_translate("MainWindow","0.0"))
+        self.editganancia_2.setText(_translate("MainWindow","1.0"))
+        self.editfrecuencia_2.setText(_translate("MainWindow","0.0"))
+        self.editamplitud_2.setText(_translate("MainWindow","0.0"))
+
+        self.edit_r.setText(_translate("MainWindow","0.0"))
+        self.edit_l.setText(_translate("MainWindow","0.0"))
+        self.edit_c.setText(_translate("MainWindow","0.0"))
+        self.editfrecuencia_rlc.setText(_translate("MainWindow","0.0"))
+        self.editamplitud_rlc.setText(_translate("MainWindow","0.0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabrlc), _translate("MainWindow", "Transferencias RLC"))
 
 
