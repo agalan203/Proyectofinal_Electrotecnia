@@ -9,6 +9,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 
 import scipy.signal as signal
+import math
 
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -273,10 +274,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def updateTransferFunctions(self):
         #Filtros 1er Orden
         sign = "+ " if (self.num_1[1] >= 0) else " "
-        numerator_1 = str(self.num_1[0]) + "s " + sign + str(self.num_1[1]) 
+        numerator_1 = str(self.myround(self.num_1[0])) + "s " + sign + str(self.myround(self.num_1[1])) 
 
         sign = "+ " if (self.denom_1[1] >= 0) else " "
-        denominator_1 = str(self.denom_1[0]) + "s " + sign + str(self.denom_1[1])
+        denominator_1 = str(self.myround(self.denom_1[0])) + "s " + sign + str(self.myround(self.denom_1[1]))
 
         self.at_1.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_1,denominator_1))
         self.axesTF_1.add_artist(self.at_1)
@@ -285,11 +286,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Filtros 2do Orden
         sign = "+ " if (self.num_2[1] >= 0) else " "
         sign2 = "+ " if (self.num_2[2] >= 0) else " "
-        numerator_2 = str(self.num_2[0]) + "s² " + sign + str(self.num_2[1]) + "s " + sign2 + str(self.num_2[2]) 
+        numerator_2 = str(self.myround(self.num_2[0])) + "s² " + sign + str(self.myround(self.num_2[1])) + "s " + sign2 + str(self.myround(self.num_2[2])) 
 
         sign = "+ " if (self.denom_2[1] >= 0) else " "
         sign2 = "+ " if (self.denom_2[2] >= 0) else " "
-        denominator_2 = str(self.denom_2[0]) + "s² " + sign + str(self.denom_2[1]) + "s " + sign2 + str(self.denom_2[2])
+        denominator_2 = str(self.myround(self.denom_2[0])) + "s² " + sign + str(self.myround(self.denom_2[1])) + "s " + sign2 + str(self.myround(self.denom_2[2]))
         
         self.at_2.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_2,denominator_2))
         self.at_2.patch.set_boxstyle("square,pad=0.")
@@ -299,11 +300,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #RLC
         sign = "+ " if (self.num_rlc[1] >= 0) else " "
         sign2 = "+ " if (self.num_rlc[2] >= 0) else " "
-        numerator_rlc = str(self.num_rlc[0]) + "s² " + sign + str(self.num_rlc[1]) + "s " + sign2 + str(self.num_rlc[2]) 
+        numerator_rlc = str(self.myround(self.num_rlc[0])) + "s² " + sign + str(self.myround(self.num_rlc[1])) + "s " + sign2 + str(self.myround(self.num_rlc[2])) 
 
         sign = "+ " if (self.denom_rlc[1] >= 0) else " "
         sign2 = "+ " if (self.denom_rlc[2] >= 0) else " "
-        denominator_rlc = str(self.denom_rlc[0]) + "s² " + sign + str(self.denom_rlc[1]) + "s " + sign2 + str(self.denom_rlc[2])
+        denominator_rlc = str(self.myround(self.denom_rlc[0])) + "s² " + sign + str(self.myround(self.denom_rlc[1])) + "s " + sign2 + str(self.myround(self.denom_rlc[2]))
         
         self.at_rlc.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_rlc,denominator_rlc))
         self.at_rlc.patch.set_boxstyle("square,pad=0.")
@@ -492,6 +493,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.bodeChanged_rlc()
         self.entradaChanged_rlc()
 
+    #Funciones auxiliares
+    def myround(self, n):
+        if n == 0:
+            return 0
+        sgn = -1 if n < 0 else 1
+        scale = int(-math.floor(math.log10(abs(n))))
+        if scale <= 0:
+            scale = 1
+        factor = 10**scale
+        return sgn*math.floor(abs(n)*factor)/factor
+
 ################################################################
 
 if __name__ == "__main__":
@@ -499,3 +511,5 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     app.exec_()
+
+################################################################
