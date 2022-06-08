@@ -19,6 +19,8 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 
 from PyQt5 import QtGui, QtWidgets
 
+#TODO: notch funciona mal, falta lo de los ceros, y rta en tiempo
+
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
@@ -26,13 +28,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initGraphs()
 
         #H(s)
-        self.num_1 = [0.0, 0.0]
+        self.num_1 = [0.0, 1.0]
         self.denom_1 = [0.0, 1.0]
 
-        self.num_2 = [0.0, 0.0, 0.0]
+        self.num_2 = [0.0, 0.0, 1.0]
         self.denom_2 = [0.0, 0.0, 1.0]
 
-        self.num_rlc = [0.0, 0.0, 0.0]
+        self.num_rlc = [0.0, 0.0, 1.0]
         self.denom_rlc = [0.0, 0.0, 1.0]
 
         #Botones RLC
@@ -42,8 +44,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Updates
         self.validateEntries()
         self.setTrasferFuncions()
-        self.updatePlots()
-        self.updateTransferFunctions()
+        self.updatePlots(1)
+        self.updatePlots(2)
+        self.updatePlots(3)
+        self.updateTransferFunctions(1)
+        self.updateTransferFunctions(2)
+        self.updateTransferFunctions(3)
 
     def validateEntries(self):
         #Validar entradas
@@ -171,86 +177,108 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.funciontransferencia_rlc.addWidget(self.canvasTF_rlc)
         self.axesTF_rlc.axis('off')
 
-    def updatePlots(self):
+    def updatePlots(self, tab):
         # Filtros de 1er orden
-        self.axes1_amp.set_xlabel('$Frecuencia [rad/s]$')
-        self.axes1_amp.set_ylabel('$|H(jw)| [dB]$')
-        self.axes1_amp.grid(True, which='both')
-        self.figure1_amp.set_tight_layout('True')
-        self.figure1_amp.tight_layout()
-        self.canvas1_amp.draw()
+        if (tab == 1):
+            self.axes1_amp.cla()
+            self.axes1_fase.cla()
+            self.axes1_ceros.cla()
+            self.axes1_out.cla()
 
-        self.axes1_fase.set_xlabel('$Frecuencia [rad/s]$')
-        self.axes1_fase.set_ylabel('$Fase [\u00B0]$')
-        self.axes1_fase.grid(True, which='both')
-        self.figure1_fase.set_tight_layout('True')
-        self.figure1_fase.tight_layout()
-        self.canvas1_fase.draw()
+            sys_1 = signal.TransferFunction(self.num_1, self.denom_1)
+            w1, mag1, phase1 = signal.bode(sys_1)
+            self.axes1_amp.semilogx(w1, mag1, color = 'lightpink')
+            self.axes1_fase.semilogx(w1, phase1, color = 'lightblue')
+            
+            self.axes1_amp.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes1_amp.set_ylabel('$|H(jw)| [dB]$')
+            self.axes1_amp.grid(True, which='both')
+            self.figure1_amp.set_tight_layout('True')
+            self.canvas1_amp.draw()
 
-        self.axes1_ceros.set_xlabel('$\u03C3$')
-        self.axes1_ceros.set_ylabel('$j\omega$')
-        self.axes1_ceros.grid(True, which='both')
-        self.figure1_ceros.tight_layout()
-        self.figure1_ceros.set_tight_layout('True')
-        self.canvas1_ceros.draw()
+            self.axes1_fase.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes1_fase.set_ylabel('$Fase [\u00B0]$')
+            self.axes1_fase.grid(True, which='both')
+            self.figure1_fase.set_tight_layout('True')
+            self.canvas1_fase.draw()
 
-        self.axes1_out.set_xlabel('$t [s]$')
-        self.axes1_out.set_ylabel('$f(t)$')
-        self.axes1_out.grid(True, which='both')
-        self.figure1_out.set_tight_layout('True')
-        self.figure1_out.tight_layout()
-        self.canvas1_out.draw()
+            self.axes1_ceros.set_xlabel('$\u03C3$')
+            self.axes1_ceros.set_ylabel('$j\omega$')
+            self.axes1_ceros.grid(True, which='both')
+            self.figure1_ceros.set_tight_layout('True')
+            self.canvas1_ceros.draw()
+
+            self.axes1_out.set_xlabel('$t [s]$')
+            self.axes1_out.set_ylabel('$f(t)$')
+            self.axes1_out.grid(True, which='both')
+            self.figure1_out.set_tight_layout('True')
+            self.canvas1_out.draw()           
 
         # Filtros de 2do orden
-        self.axes2_amp.set_xlabel('$Frecuencia [rad/s]$')
-        self.axes2_amp.set_ylabel('$|H(jw)| [dB]$')
-        self.axes2_amp.grid(True, which='both')
-        self.figure2_amp.set_tight_layout('True')
-        self.figure2_amp.tight_layout()
-        self.canvas2_amp.draw()
+        if(tab == 2):
+            self.axes2_amp.cla()
+            self.axes2_fase.cla()
+            self.axes2_ceros.cla()
+            self.axes2_out.cla()
 
-        self.axes2_fase.set_xlabel('$Frecuencia [rad/s]$')
-        self.axes2_fase.set_ylabel('$Fase [\u00B0]$')
-        self.axes2_fase.grid(True, which='both')
-        self.figure2_fase.set_tight_layout('True')
-        self.figure2_fase.tight_layout()
-        self.canvas2_fase.draw()
+            sys_2 = signal.TransferFunction(self.num_2, self.denom_2)
+            w2, mag2, phase2 = signal.bode(sys_2)
+            self.axes2_amp.semilogx(w2, mag2, color = 'lightpink')
+            self.axes2_fase.semilogx(w2, phase2, color = 'lightblue')
 
-        self.axes2_ceros.set_xlabel('$\u03C3$')
-        self.axes2_ceros.set_ylabel('$j\omega$')
-        self.axes2_ceros.grid(True, which='both')
-        self.figure2_ceros.tight_layout()
-        self.figure2_ceros.set_tight_layout('True')
-        self.canvas2_ceros.draw()
+            self.axes2_amp.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes2_amp.set_ylabel('$|H(jw)| [dB]$')
+            self.axes2_amp.grid(True, which='both')
+            self.figure2_amp.set_tight_layout('True')
+            self.canvas2_amp.draw()
 
-        self.axes2_out.set_xlabel('$t [s]$')
-        self.axes2_out.set_ylabel('$f(t)$')
-        self.axes2_out.grid(True, which='both')
-        self.figure2_out.set_tight_layout('True')
-        self.figure2_out.tight_layout()
-        self.canvas2_out.draw()
+            self.axes2_fase.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes2_fase.set_ylabel('$Fase [\u00B0]$')
+            self.axes2_fase.grid(True, which='both')
+            self.figure2_fase.set_tight_layout('True')
+            self.canvas2_fase.draw()
 
+            self.axes2_ceros.set_xlabel('$\u03C3$')
+            self.axes2_ceros.set_ylabel('$j\omega$')
+            self.axes2_ceros.grid(True, which='both')
+            self.figure2_ceros.set_tight_layout('True')
+            self.canvas2_ceros.draw()
+
+            self.axes2_out.set_xlabel('$t [s]$')
+            self.axes2_out.set_ylabel('$f(t)$')
+            self.axes2_out.grid(True, which='both')
+            self.figure2_out.set_tight_layout('True')
+            self.canvas2_out.draw()
+
+        
         # RLC
-        self.axesrlc_amp.set_xlabel('$Frecuencia [rad/s]$')
-        self.axesrlc_amp.set_ylabel('$|H(jw)| [dB]$')
-        self.axesrlc_amp.grid(True, which='both')
-        self.figurerlc_amp.set_tight_layout('True')
-        self.figurerlc_amp.tight_layout()
-        self.canvasrlc_amp.draw()
+        if(tab == 3):
+            self.axesrlc_amp.cla()
+            self.axesrlc_fase.cla()
+            self.axesrlc_out.cla()
 
-        self.axesrlc_fase.set_xlabel('$Frecuencia [rad/s]$')
-        self.axesrlc_fase.set_ylabel('$Fase [\u00B0]$')
-        self.axesrlc_fase.grid(True, which='both')
-        self.figurerlc_fase.set_tight_layout('True')
-        self.figurerlc_fase.tight_layout()
-        self.canvasrlc_fase.draw()
+            sys_rlc = signal.TransferFunction(self.num_rlc, self.denom_rlc)
+            wrlc, magrlc, phaserlc = signal.bode(sys_rlc)
+            self.axesrlc_amp.semilogx(wrlc, magrlc, color = 'lightpink')
+            self.axesrlc_fase.semilogx(wrlc, phaserlc, color = 'lightblue')
 
-        self.axesrlc_out.set_xlabel('$t [s]$')
-        self.axesrlc_out.set_ylabel('$f(t) [V]$')
-        self.axesrlc_out.grid(True, which='both')
-        self.figurerlc_out.set_tight_layout('True')
-        self.figurerlc_out.tight_layout()
-        self.canvasrlc_out.draw()
+            self.axesrlc_amp.set_xlabel('$Frecuencia [rad/s]$')
+            self.axesrlc_amp.set_ylabel('$|H(jw)| [dB]$')
+            self.axesrlc_amp.grid(True, which='both')
+            self.figurerlc_amp.set_tight_layout('True')
+            self.canvasrlc_amp.draw()
+
+            self.axesrlc_fase.set_xlabel('$Frecuencia [rad/s]$')
+            self.axesrlc_fase.set_ylabel('$Fase [\u00B0]$')
+            self.axesrlc_fase.grid(True, which='both')
+            self.figurerlc_fase.set_tight_layout('True')
+            self.canvasrlc_fase.draw()
+
+            self.axesrlc_out.set_xlabel('$t [s]$')
+            self.axesrlc_out.set_ylabel('$f(t) [V]$')
+            self.axesrlc_out.grid(True, which='both')
+            self.figurerlc_out.set_tight_layout('True')
+            self.canvasrlc_out.draw()
 
     def setTrasferFuncions(self):
         #Filtros 1er Orden
@@ -271,45 +299,54 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.axesTF_rlc.add_artist(self.at_rlc)
         self.canvasTF_rlc.draw()
 
-    def updateTransferFunctions(self):
+    def updateTransferFunctions(self, tab):
         #Filtros 1er Orden
-        sign = "+ " if (self.num_1[1] >= 0) else " "
-        numerator_1 = str(self.myround(self.num_1[0])) + "s " + sign + str(self.myround(self.num_1[1])) 
+        if(tab == 1):
+            sign = "+ " if (self.num_1[1] >= 0) else " "
+            numerator_1 = str(self.myround(self.num_1[0])) + "s " + sign + str(self.myround(self.num_1[1])) 
 
-        sign = "+ " if (self.denom_1[1] >= 0) else " "
-        denominator_1 = str(self.myround(self.denom_1[0])) + "s " + sign + str(self.myround(self.denom_1[1]))
+            sign = "+ " if (self.denom_1[1] >= 0) else " "
+            denominator_1 = str(self.myround(self.denom_1[0])) + "s " + sign + str(self.myround(self.denom_1[1]))
 
-        self.at_1.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_1,denominator_1))
-        self.axesTF_1.add_artist(self.at_1)
-        self.canvasTF_1.draw()
+            self.at_1.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_1,denominator_1))
+            self.axesTF_1.add_artist(self.at_1)
+            self.canvasTF_1.draw()
+
+            self.updatePlots(1)
 
         #Filtros 2do Orden
-        sign = "+ " if (self.num_2[1] >= 0) else " "
-        sign2 = "+ " if (self.num_2[2] >= 0) else " "
-        numerator_2 = str(self.myround(self.num_2[0])) + "s² " + sign + str(self.myround(self.num_2[1])) + "s " + sign2 + str(self.myround(self.num_2[2])) 
+        if(tab == 2):
+            sign = "+ " if (self.num_2[1] >= 0) else " "
+            sign2 = "+ " if (self.num_2[2] >= 0) else " "
+            numerator_2 = str(self.myround(self.num_2[0])) + "s² " + sign + str(self.myround(self.num_2[1])) + "s " + sign2 + str(self.myround(self.num_2[2])) 
 
-        sign = "+ " if (self.denom_2[1] >= 0) else " "
-        sign2 = "+ " if (self.denom_2[2] >= 0) else " "
-        denominator_2 = str(self.myround(self.denom_2[0])) + "s² " + sign + str(self.myround(self.denom_2[1])) + "s " + sign2 + str(self.myround(self.denom_2[2]))
-        
-        self.at_2.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_2,denominator_2))
-        self.at_2.patch.set_boxstyle("square,pad=0.")
-        self.axesTF_2.add_artist(self.at_2)
-        self.canvasTF_2.draw()
+            sign = "+ " if (self.denom_2[1] >= 0) else " "
+            sign2 = "+ " if (self.denom_2[2] >= 0) else " "
+            denominator_2 = str(self.myround(self.denom_2[0])) + "s² " + sign + str(self.myround(self.denom_2[1])) + "s " + sign2 + str(self.myround(self.denom_2[2]))
+            
+            self.at_2.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_2,denominator_2))
+            self.at_2.patch.set_boxstyle("square,pad=0.")
+            self.axesTF_2.add_artist(self.at_2)
+            self.canvasTF_2.draw()
+
+            self.updatePlots(2)
 
         #RLC
-        sign = "+ " if (self.num_rlc[1] >= 0) else " "
-        sign2 = "+ " if (self.num_rlc[2] >= 0) else " "
-        numerator_rlc = str(self.myround(self.num_rlc[0])) + "s² " + sign + str(self.myround(self.num_rlc[1])) + "s " + sign2 + str(self.myround(self.num_rlc[2])) 
+        if(tab == 3):
+            sign = "+ " if (self.num_rlc[1] >= 0) else " "
+            sign2 = "+ " if (self.num_rlc[2] >= 0) else " "
+            numerator_rlc = str(self.myround(self.num_rlc[0])) + "s² " + sign + str(self.myround(self.num_rlc[1])) + "s " + sign2 + str(self.myround(self.num_rlc[2])) 
 
-        sign = "+ " if (self.denom_rlc[1] >= 0) else " "
-        sign2 = "+ " if (self.denom_rlc[2] >= 0) else " "
-        denominator_rlc = str(self.myround(self.denom_rlc[0])) + "s² " + sign + str(self.myround(self.denom_rlc[1])) + "s " + sign2 + str(self.myround(self.denom_rlc[2]))
-        
-        self.at_rlc.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_rlc,denominator_rlc))
-        self.at_rlc.patch.set_boxstyle("square,pad=0.")
-        self.axesTF_rlc.add_artist(self.at_rlc)
-        self.canvasTF_rlc.draw()
+            sign = "+ " if (self.denom_rlc[1] >= 0) else " "
+            sign2 = "+ " if (self.denom_rlc[2] >= 0) else " "
+            denominator_rlc = str(self.myround(self.denom_rlc[0])) + "s² " + sign + str(self.myround(self.denom_rlc[1])) + "s " + sign2 + str(self.myround(self.denom_rlc[2]))
+            
+            self.at_rlc.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_rlc,denominator_rlc))
+            self.at_rlc.patch.set_boxstyle("square,pad=0.")
+            self.axesTF_rlc.add_artist(self.at_rlc)
+            self.canvasTF_rlc.draw()
+
+            self.updatePlots(3)
 
     #Callbacks
     def bodeChanged_1(self):
@@ -319,10 +356,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             polo_1 = float(self.editpolo_1.text())
             ganancia_1 = float(self.editganancia_1.text())
         
-            #esto es para arbitrario
+            if((filterType_1 == "Pasa Bajos") and (polo_1 > cero_1)):
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText("No se introdujeron valores \n correspondientes a un pasa bajos.\n El polo debe ser menor al cero")
+                msg.setWindowTitle("Warning")
+                msg.exec_()
+            elif((filterType_1 == "Pasa Altos") and (polo_1 < cero_1)):
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText("No se introdujeron valores \n correspondientes a un pasa altos.\n El polo debe ser mayor al cero")
+                msg.setWindowTitle("Warning")
+                msg.exec_()
+            elif((filterType_1 == "Pasa Todo") and (polo_1 != cero_1)):
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText("No se introdujeron valores \n correspondientes a un pasa todo.\n El polo debe ser igual al cero")
+                msg.setWindowTitle("Warning")
+                msg.exec_()
+
+            #actualiza la funcion transferencia
             if(cero_1 == 0.0):
                 self.num_1[0] = 1.0 * ganancia_1
-                self.num_1[1] = 0.0
+                self.num_1[1] = 0.0 
             else:
                 self.num_1[0] = cero_1**(-1) * ganancia_1
                 self.num_1[1] = 1.0 * ganancia_1
@@ -334,7 +390,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.denom_1[0] = polo_1**(-1)
                 self.denom_1[1] = 1.0
             
-            self.updateTransferFunctions()
+            self.updateTransferFunctions(1)
 
         except :
             msg = QMessageBox()
@@ -342,7 +398,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             msg.setText("No puede haber entradas vacias, o con ',' \n No se puede dividir por 0")
             msg.setWindowTitle("Error")
             msg.exec_()
-
 
     def entradaChanged_1(self):
         entrytype_1 = self.entrytype_1.currentText()
@@ -356,17 +411,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             w0_2 = float(self.editw0_2.text())
             xi_2 = float(self.editxi_2.text())
             ganancia_2 = float(self.editganancia_2.text())
-        
-            #esto es para arbitrario
-            self.num_2[0] = 0.0 
-            self.num_2[1] = 0.0
-            self.num_2[2] = 1.0 * ganancia_2
 
+            if((filterType_2 == "Pasa Bajos") or (filterType_2 == "Arbitrario")):
+                self.num_2[0] = 0.0
+                self.num_2[1] = 0.0
+                self.num_2[2] = 1.0 * ganancia_2
+            elif((filterType_2 == "Pasa Altos")):
+                self.num_2[0] = 1.0 * ganancia_2
+                self.num_2[1] = 0.0
+                self.num_2[2] = 0.0
+            elif((filterType_2 == "Pasa Todo")):
+                self.num_2[0] = 1.0 * ganancia_2
+                self.num_2[1] = 2 * xi_2 / w0_2 * ganancia_2
+                self.num_2[2] = w0_2 ** (-2) * ganancia_2
+            elif((filterType_2 == "Pasa Banda")):
+                self.num_2[0] = 0.0
+                self.num_2[1] = 1.0 * ganancia_2
+                self.num_2[2] = 0.0
+            elif((filterType_2 == "Notch")):
+                self.num_2[0] = w0_2 ** (-2) * ganancia_2
+                self.num_2[1] = 0.0
+                self.num_2[2] = 0.0
+        
+            #actualiza la funcion transferencia
             self.denom_2[0] = 1.0
             self.denom_2[1] = 2 * xi_2 / w0_2
             self.denom_2[2] = w0_2 ** (-2)
             
-            self.updateTransferFunctions()
+            self.updateTransferFunctions(2)
 
         except :
             msg = QMessageBox()
@@ -415,6 +487,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     termcuadrado += 0.0
                     termsimple += 0.0
                     termindep += 0.0
+                case _:
+                    termcuadrado = 0.0
+                    termsimple = 0.0
+                    termindep = 1.0
 
             match(self.button_B):
                 case 1:
@@ -433,6 +509,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     termcuadrado -= 0.0
                     termsimple -= 0.0
                     termindep -= 0.0
+                case _:
+                    termcuadrado = 0.0
+                    termsimple = 0.0
+                    termindep = 1.0
         
             #esto es para arbitrario
             self.num_rlc[0] = termcuadrado
@@ -443,7 +523,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.denom_rlc[1] = R * C
             self.denom_rlc[2] = 1.0
             
-            self.updateTransferFunctions()
+            self.updateTransferFunctions(3)
 
         except :
             msg = QMessageBox()
@@ -452,7 +532,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             msg.setWindowTitle("Error")
             msg.exec_()
         
-
     def vButton_1a(self):
         self.button_A = 1
         self.bodeChanged_rlc()
