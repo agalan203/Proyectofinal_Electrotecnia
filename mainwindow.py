@@ -19,7 +19,7 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 
 from PyQt5 import QtGui, QtWidgets
 
-#TODO: notch funciona mal, falta lo de los ceros, y rta en tiempo
+#TODO: falta la rta en tiempo
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -463,7 +463,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             elif((filterType_2 == "Notch")):
                 self.num_2[0] = w0_2 ** (-2) * ganancia_2
                 self.num_2[1] = 0.0
-                self.num_2[2] = 0.0
+                self.num_2[2] = 1.0
         
             #actualiza la funcion transferencia
             self.denom_2[0] = 1.0
