@@ -27,6 +27,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.initGraphs()
 
+        self.setWindowTitle("Interfaz de Filtros - Grupo 1")
+        self.setWindowIcon(QtGui.QIcon("Proyectofinal_Electrotecnia\GUI\icon.png"))
+
         #H(s)
         self.num_1 = [0.0, 1.0]
         self.denom_1 = [0.0, 1.0]
@@ -187,20 +190,30 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             sys_1 = signal.TransferFunction(self.num_1, self.denom_1)
             w1, mag1, phase1 = signal.bode(sys_1)
-            self.axes1_amp.semilogx(w1, mag1, color = 'lightpink')
-            self.axes1_fase.semilogx(w1, phase1, color = 'lightblue')
-            
+            self.axes1_amp.semilogx(w1, mag1, color = 'tomato')
+            self.axes1_fase.semilogx(w1, phase1, color = 'dodgerblue')
+
+            self.axes1_amp.axhline(linewidth=1, color="k")
+            self.axes1_amp.axvline(linewidth=1, color="k")            
             self.axes1_amp.set_xlabel('$Frecuencia [rad/s]$')
             self.axes1_amp.set_ylabel('$|H(jw)| [dB]$')
             self.axes1_amp.grid(True, which='both')
             self.figure1_amp.set_tight_layout('True')
             self.canvas1_amp.draw()
 
+            self.axes1_fase.axhline(linewidth=1, color="k")
+            self.axes1_fase.axvline(linewidth=1, color="k")
             self.axes1_fase.set_xlabel('$Frecuencia [rad/s]$')
             self.axes1_fase.set_ylabel('$Fase [\u00B0]$')
             self.axes1_fase.grid(True, which='both')
             self.figure1_fase.set_tight_layout('True')
             self.canvas1_fase.draw()
+
+            z_1, p_1, k = signal.tf2zpk(self.num_1, self.denom_1)
+            self.axes1_ceros.axhline(linewidth=1, color="k")
+            self.axes1_ceros.axvline(linewidth=1, color="k")
+            self.axes1_ceros.scatter(np.real(z_1), np.imag(z_1), marker = 'o', color = 'tomato', s = 90, alpha=None)
+            self.axes1_ceros.scatter(np.real(p_1), np.imag(p_1), marker = 'x', color = 'dodgerblue', s = 90, alpha=None)
 
             self.axes1_ceros.set_xlabel('$\u03C3$')
             self.axes1_ceros.set_ylabel('$j\omega$')
@@ -208,6 +221,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.figure1_ceros.set_tight_layout('True')
             self.canvas1_ceros.draw()
 
+            self.axes1_out.axhline(linewidth=1, color="k")
+            self.axes1_out.axvline(linewidth=1, color="k")
             self.axes1_out.set_xlabel('$t [s]$')
             self.axes1_out.set_ylabel('$f(t)$')
             self.axes1_out.grid(True, which='both')
@@ -223,20 +238,30 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             sys_2 = signal.TransferFunction(self.num_2, self.denom_2)
             w2, mag2, phase2 = signal.bode(sys_2)
-            self.axes2_amp.semilogx(w2, mag2, color = 'lightpink')
-            self.axes2_fase.semilogx(w2, phase2, color = 'lightblue')
+            self.axes2_amp.semilogx(w2, mag2, color = 'tomato')
+            self.axes2_fase.semilogx(w2, phase2, color = 'dodgerblue')
 
+            self.axes2_amp.axhline(linewidth=1, color="k")
+            self.axes2_amp.axvline(linewidth=1, color="k")
             self.axes2_amp.set_xlabel('$Frecuencia [rad/s]$')
             self.axes2_amp.set_ylabel('$|H(jw)| [dB]$')
             self.axes2_amp.grid(True, which='both')
             self.figure2_amp.set_tight_layout('True')
             self.canvas2_amp.draw()
 
+            self.axes2_fase.axhline(linewidth=1, color="k")
+            self.axes2_fase.axvline(linewidth=1, color="k")
             self.axes2_fase.set_xlabel('$Frecuencia [rad/s]$')
             self.axes2_fase.set_ylabel('$Fase [\u00B0]$')
             self.axes2_fase.grid(True, which='both')
             self.figure2_fase.set_tight_layout('True')
             self.canvas2_fase.draw()
+
+            z_2, p_2, k = signal.tf2zpk(self.num_2, self.denom_2)
+            self.axes2_ceros.axhline(linewidth=1, color="k")
+            self.axes2_ceros.axvline(linewidth=1, color="k")
+            self.axes2_ceros.scatter(np.real(z_2), np.imag(z_2), marker = 'o', color = 'tomato', s = 90, alpha=None)
+            self.axes2_ceros.scatter(np.real(p_2), np.imag(p_2), marker = 'x', color = 'dodgerblue', s = 90, alpha=None)
 
             self.axes2_ceros.set_xlabel('$\u03C3$')
             self.axes2_ceros.set_ylabel('$j\omega$')
@@ -244,12 +269,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.figure2_ceros.set_tight_layout('True')
             self.canvas2_ceros.draw()
 
+            self.axes2_out.axhline(linewidth=1, color="k")
+            self.axes2_out.axvline(linewidth=1, color="k")
             self.axes2_out.set_xlabel('$t [s]$')
             self.axes2_out.set_ylabel('$f(t)$')
             self.axes2_out.grid(True, which='both')
             self.figure2_out.set_tight_layout('True')
             self.canvas2_out.draw()
-
         
         # RLC
         if(tab == 3):
@@ -259,21 +285,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             sys_rlc = signal.TransferFunction(self.num_rlc, self.denom_rlc)
             wrlc, magrlc, phaserlc = signal.bode(sys_rlc)
-            self.axesrlc_amp.semilogx(wrlc, magrlc, color = 'lightpink')
-            self.axesrlc_fase.semilogx(wrlc, phaserlc, color = 'lightblue')
+            self.axesrlc_amp.semilogx(wrlc, magrlc, color = 'tomato')
+            self.axesrlc_fase.semilogx(wrlc, phaserlc, color = 'dodgerblue')
 
+            self.axesrlc_amp.axhline(linewidth=1, color="k")
+            self.axesrlc_amp.axvline(linewidth=1, color="k")
             self.axesrlc_amp.set_xlabel('$Frecuencia [rad/s]$')
             self.axesrlc_amp.set_ylabel('$|H(jw)| [dB]$')
             self.axesrlc_amp.grid(True, which='both')
             self.figurerlc_amp.set_tight_layout('True')
             self.canvasrlc_amp.draw()
 
+            self.axesrlc_amp.axhline(linewidth=1, color="k")
+            self.axesrlc_amp.axvline(linewidth=1, color="k")
             self.axesrlc_fase.set_xlabel('$Frecuencia [rad/s]$')
             self.axesrlc_fase.set_ylabel('$Fase [\u00B0]$')
             self.axesrlc_fase.grid(True, which='both')
             self.figurerlc_fase.set_tight_layout('True')
             self.canvasrlc_fase.draw()
 
+            self.axesrlc_amp.axhline(linewidth=1, color="k")
+            self.axesrlc_amp.axvline(linewidth=1, color="k")
             self.axesrlc_out.set_xlabel('$t [s]$')
             self.axesrlc_out.set_ylabel('$f(t) [V]$')
             self.axesrlc_out.grid(True, which='both')
