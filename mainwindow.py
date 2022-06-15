@@ -1,4 +1,4 @@
-from hashlib import algorithms_available
+from sympy import Q
 from GUI.GUIv7 import *
 import numpy as np
 import sys
@@ -43,6 +43,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Botones RLC
         self.button_A = 0
         self.button_B = 4
+
+        #Tiempo para salida
+        self.t = np.linspace(0, 5, 300)
 
         #Updates
         self.validateEntries()
@@ -180,7 +183,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.funciontransferencia_rlc.addWidget(self.canvasTF_rlc)
         self.axesTF_rlc.axis('off')
 
-    def updatePlots(self, tab):
+    def updatePlots(self, tab, u = 0):
         # Filtros de 1er orden
         if (tab == 1):
             self.axes1_amp.cla()
@@ -220,6 +223,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.axes1_ceros.grid(True, which='both')
             self.figure1_ceros.set_tight_layout('True')
             self.canvas1_ceros.draw()
+
+            toux, out, xout = signal.lsim(sys_1, U=u, T=self.t)
+            self.axes1_out.plot(toux, out)
+            self.figure1_out.set_tight_layout('True')
+            self.canvas1_out.draw()
 
             self.axes1_out.axhline(linewidth=1, color="k")
             self.axes1_out.axvline(linewidth=1, color="k")
@@ -269,6 +277,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.figure2_ceros.set_tight_layout('True')
             self.canvas2_ceros.draw()
 
+            toux, out, xout = signal.lsim(sys_2, U=u, T=self.t)
+            self.axes2_out.plot(toux, out)
+            self.figure2_out.set_tight_layout('True')
+            self.canvas2_out.draw()
+
             self.axes2_out.axhline(linewidth=1, color="k")
             self.axes2_out.axvline(linewidth=1, color="k")
             self.axes2_out.set_xlabel('$t [s]$')
@@ -306,6 +319,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             self.axesrlc_amp.axhline(linewidth=1, color="k")
             self.axesrlc_amp.axvline(linewidth=1, color="k")
+
+            toux, out, xout = signal.lsim(sys_rlc, U=u, T=self.t)
+            self.axesrlc_out.plot(toux, out)
+            self.figurerlc_out.set_tight_layout('True')
+            self.canvasrlc_out.draw()
+
             self.axesrlc_out.set_xlabel('$t [s]$')
             self.axesrlc_out.set_ylabel('$f(t) [V]$')
             self.axesrlc_out.grid(True, which='both')
@@ -423,6 +442,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.denom_1[1] = 1.0
             
             self.updateTransferFunctions(1)
+            self.entradaChanged_1()
 
         except :
             msg = QMessageBox()
@@ -433,8 +453,28 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def entradaChanged_1(self):
         entrytype_1 = self.entrytype_1.currentText()
-        ampentrada_1 = float(self.editamplitud_1.text())
-        frecentrada_1 = float(self.editfrecuencia_1.text())
+        try:
+            ampentrada_1 = float(self.editamplitud_1.text())
+            frecentrada_1 = float(self.editfrecuencia_1.text())
+        
+            if(entrytype_1 == "Senoide"):
+                u = np.sin(2 * np.pi * frecentrada_1 * self.t) * ampentrada_1
+                self.updatePlots(1, u)
+
+            elif(entrytype_1 == "Pulso"):
+                u = np.heaviside(self.t, 1) * ampentrada_1
+                self.updatePlots(1, u)
+
+            elif(entrytype_1 == "Pulso periodico"):
+                u = signal.square(2 * np.pi * frecentrada_1 * self.t, duty=0.5)
+                self.updatePlots(1, u)
+
+        except :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("No puede haber entradas vacias, o con ','")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
     def bodeChanged_2(self):
         filterType_2 = self.filtertype_2.currentText()
@@ -471,6 +511,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.denom_2[2] = w0_2 ** (-2)
             
             self.updateTransferFunctions(2)
+            self.entradaChanged_2()
 
         except :
             msg = QMessageBox()
@@ -483,14 +524,53 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         entrytype_2 = self.entrytype_2.currentText()
         ampentrada_2 = float(self.editamplitud_2.text())
         frecentrada_2 = float(self.editfrecuencia_2.text())
+        try:
+            ampentrada_2 = float(self.editamplitud_2.text())
+            frecentrada_2 = float(self.editfrecuencia_2.text())
+        
+            if(entrytype_2 == "Senoide"):
+                u = np.sin(2 * np.pi * frecentrada_2 * self.t) * ampentrada_2
+                self.updatePlots(2, u)
+
+            elif(entrytype_2 == "Pulso"):
+                u = np.heaviside(self.t, 1) * ampentrada_2
+                self.updatePlots(2, u)
+
+            elif(entrytype_2 == "Pulso periodico"):
+                u = signal.square(2 * np.pi * frecentrada_2 * self.t, duty=0.5)
+                self.updatePlots(2, u)
+
+        except :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("No puede haber entradas vacias, o con ','")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
     def entradaChanged_rlc(self):
         entrytype_rlc = self.entrytype_rlc.currentText()
-        R = float(self.edit_r.text())
-        L = float(self.edit_l.text())
-        C = float(self.edit_c.text())
-        ampentrada_rlc = float(self.editamplitud_rlc.text())
-        frecentrada_rlc = float(self.editfrecuencia_rlc.text())
+        try:
+            ampentrada_rlc = float(self.editamplitud_rlc.text())
+            frecentrada_rlc = float(self.editfrecuencia_rlc.text())
+        
+            if(entrytype_rlc == "Senoide"):
+                u = np.sin(2 * np.pi * frecentrada_rlc * self.t) * ampentrada_rlc
+                self.updatePlots(3, u)
+
+            elif(entrytype_rlc == "Pulso"):
+                u = np.heaviside(self.t, 1) * ampentrada_rlc
+                self.updatePlots(3, u)
+
+            elif(entrytype_rlc == "Pulso periodico"):
+                u = signal.square(2 * np.pi * frecentrada_rlc * self.t, duty=0.5)
+                self.updatePlots(3, u)
+
+        except :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("No puede haber entradas vacias, o con ','")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
     def bodeChanged_rlc(self):
         try:
@@ -556,6 +636,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.denom_rlc[2] = 1.0
             
             self.updateTransferFunctions(3)
+            self.entradaChanged_rlc()
 
         except :
             msg = QMessageBox()
