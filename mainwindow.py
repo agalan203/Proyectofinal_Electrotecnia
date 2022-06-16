@@ -193,12 +193,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             sys_1 = signal.TransferFunction(self.num_1, self.denom_1)
             w1, mag1, phase1 = signal.bode(sys_1)
-            self.axes1_amp.semilogx(w1, mag1, color = 'tomato')
-            self.axes1_fase.semilogx(w1, phase1, color = 'dodgerblue')
+            self.axes1_amp.semilogx(w1 / (2 * np.pi), mag1, color = 'tomato')
+            self.axes1_fase.semilogx(w1 / (2 * np.pi), phase1, color = 'dodgerblue')
 
             self.axes1_amp.axhline(linewidth=1, color="k")
             self.axes1_amp.axvline(linewidth=1, color="k")            
-            self.axes1_amp.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes1_amp.set_xlabel('$Frecuencia [Hz]$')
             self.axes1_amp.set_ylabel('$|H(jw)| [dB]$')
             self.axes1_amp.grid(True, which='both')
             self.figure1_amp.set_tight_layout('True')
@@ -206,7 +206,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             self.axes1_fase.axhline(linewidth=1, color="k")
             self.axes1_fase.axvline(linewidth=1, color="k")
-            self.axes1_fase.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes1_fase.set_xlabel('$Frecuencia [Hz]$')
             self.axes1_fase.set_ylabel('$Fase [\u00B0]$')
             self.axes1_fase.grid(True, which='both')
             self.figure1_fase.set_tight_layout('True')
@@ -246,12 +246,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             sys_2 = signal.TransferFunction(self.num_2, self.denom_2)
             w2, mag2, phase2 = signal.bode(sys_2)
-            self.axes2_amp.semilogx(w2, mag2, color = 'tomato')
-            self.axes2_fase.semilogx(w2, phase2, color = 'dodgerblue')
+            self.axes2_amp.semilogx(w2/ (2 * np.pi), mag2, color = 'tomato')
+            self.axes2_fase.semilogx(w2/ (2 * np.pi), phase2, color = 'dodgerblue')
 
             self.axes2_amp.axhline(linewidth=1, color="k")
             self.axes2_amp.axvline(linewidth=1, color="k")
-            self.axes2_amp.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes2_amp.set_xlabel('$Frecuencia [Hz]$')
             self.axes2_amp.set_ylabel('$|H(jw)| [dB]$')
             self.axes2_amp.grid(True, which='both')
             self.figure2_amp.set_tight_layout('True')
@@ -259,7 +259,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             self.axes2_fase.axhline(linewidth=1, color="k")
             self.axes2_fase.axvline(linewidth=1, color="k")
-            self.axes2_fase.set_xlabel('$Frecuencia [rad/s]$')
+            self.axes2_fase.set_xlabel('$Frecuencia [Hz]$')
             self.axes2_fase.set_ylabel('$Fase [\u00B0]$')
             self.axes2_fase.grid(True, which='both')
             self.figure2_fase.set_tight_layout('True')
@@ -298,12 +298,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             sys_rlc = signal.TransferFunction(self.num_rlc, self.denom_rlc)
             wrlc, magrlc, phaserlc = signal.bode(sys_rlc)
-            self.axesrlc_amp.semilogx(wrlc, magrlc, color = 'tomato')
-            self.axesrlc_fase.semilogx(wrlc, phaserlc, color = 'dodgerblue')
+            self.axesrlc_amp.semilogx(wrlc/ (2 * np.pi), magrlc, color = 'tomato')
+            self.axesrlc_fase.semilogx(wrlc/ (2 * np.pi), phaserlc, color = 'dodgerblue')
 
             self.axesrlc_amp.axhline(linewidth=1, color="k")
             self.axesrlc_amp.axvline(linewidth=1, color="k")
-            self.axesrlc_amp.set_xlabel('$Frecuencia [rad/s]$')
+            self.axesrlc_amp.set_xlabel('$Frecuencia [Hz]$')
             self.axesrlc_amp.set_ylabel('$|H(jw)| [dB]$')
             self.axesrlc_amp.grid(True, which='both')
             self.figurerlc_amp.set_tight_layout('True')
@@ -311,7 +311,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             self.axesrlc_amp.axhline(linewidth=1, color="k")
             self.axesrlc_amp.axvline(linewidth=1, color="k")
-            self.axesrlc_fase.set_xlabel('$Frecuencia [rad/s]$')
+            self.axesrlc_fase.set_xlabel('$Frecuencia [Hz]$')
             self.axesrlc_fase.set_ylabel('$Fase [\u00B0]$')
             self.axesrlc_fase.grid(True, which='both')
             self.figurerlc_fase.set_tight_layout('True')
@@ -466,7 +466,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.updatePlots(1, u)
 
             elif(entrytype_1 == "Pulso periodico"):
-                u = signal.square(2 * np.pi * frecentrada_1 * self.t, duty=0.5)
+                u = signal.square(2 * np.pi * frecentrada_1 * self.t, duty=0.5) * ampentrada_1
+                self.updatePlots(1, u)
+            
+            elif(entrytype_1 == "Diente de sierra"):
+                u = signal.sawtooth(2 * np.pi * frecentrada_1 * self.t) * ampentrada_1
                 self.updatePlots(1, u)
 
         except :
@@ -537,7 +541,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.updatePlots(2, u)
 
             elif(entrytype_2 == "Pulso periodico"):
-                u = signal.square(2 * np.pi * frecentrada_2 * self.t, duty=0.5)
+                u = signal.square(2 * np.pi * frecentrada_2 * self.t, duty=0.5) * ampentrada_2
+                self.updatePlots(2, u)
+
+            elif(entrytype_2 == "Diente de sierra"):
+                u = signal.sawtooth(2 * np.pi * frecentrada_2 * self.t) * ampentrada_2
                 self.updatePlots(2, u)
 
         except :
@@ -563,6 +571,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
             elif(entrytype_rlc == "Pulso periodico"):
                 u = signal.square(2 * np.pi * frecentrada_rlc * self.t, duty=0.5)
+                self.updatePlots(3, u)
+
+            elif(entrytype_rlc == "Diente de sierra"):
+                u = signal.sawtooth(2 * np.pi * frecentrada_rlc * self.t) * ampentrada_rlc
                 self.updatePlots(3, u)
 
         except :
