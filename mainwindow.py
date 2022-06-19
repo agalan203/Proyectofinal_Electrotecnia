@@ -19,8 +19,6 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 
 from PyQt5 import QtGui, QtWidgets
 
-#TODO: falta la rta en tiempo
-
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
@@ -45,7 +43,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_B = 4
 
         #Tiempo para salida
-        self.t = np.linspace(0, 5, 300)
+        self.t = np.linspace(0, 15, 300)
 
         #Updates
         self.validateEntries()
