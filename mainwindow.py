@@ -1,9 +1,7 @@
-from sympy import Q
+from sympy import Q, numer
 from GUI.GUIv7 import *
 import numpy as np
-import sys
-import io
-import os
+
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QRadioButton, QInputDialog
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
@@ -352,10 +350,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #Filtros 1er Orden
         if(tab == 1):
             sign = "+ " if (self.num_1[1] >= 0) else " "
-            numerator_1 = str(self.myround(self.num_1[0])) + "s " + sign + str(self.myround(self.num_1[1])) 
+
+            numerator_1 = (str(self.myround(self.num_1[0])) + "s ") if (self.num_1[0] != 0.0) else ""
+            numerator_1 += (sign + str(self.myround(self.num_1[1]))) if (self.num_1[1] != 0.0) else ""
 
             sign = "+ " if (self.denom_1[1] >= 0) else " "
-            denominator_1 = str(self.myround(self.denom_1[0])) + "s " + sign + str(self.myround(self.denom_1[1]))
+
+            denominator_1 = (str(self.myround(self.denom_1[0])) + "s ") if (self.denom_1[0] != 0.0) else ""
+            denominator_1 += (sign + str(self.myround(self.denom_1[1]))) if (self.denom_1[1] != 0.0) else ""
 
             self.at_1.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_1,denominator_1))
             self.axesTF_1.add_artist(self.at_1)
@@ -367,12 +369,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if(tab == 2):
             sign = "+ " if (self.num_2[1] >= 0) else " "
             sign2 = "+ " if (self.num_2[2] >= 0) else " "
-            numerator_2 = str(self.myround(self.num_2[0])) + "s² " + sign + str(self.myround(self.num_2[1])) + "s " + sign2 + str(self.myround(self.num_2[2])) 
+
+            numerator_2 = (str(self.myround(self.num_2[0])) + "s² ") if (self.num_2[0] != 0.0) else ""
+            numerator_2 += (sign + str(self.myround(self.num_2[1])) + "s ") if (self.num_2[1] != 0.0) else ""
+            numerator_2 += (sign2 + str(self.myround(self.num_2[2]))) if (self.num_2[2] != 0.0) else ""
 
             sign = "+ " if (self.denom_2[1] >= 0) else " "
             sign2 = "+ " if (self.denom_2[2] >= 0) else " "
-            denominator_2 = str(self.myround(self.denom_2[0])) + "s² " + sign + str(self.myround(self.denom_2[1])) + "s " + sign2 + str(self.myround(self.denom_2[2]))
-            
+
+            denominator_2 = (str(self.myround(self.denom_2[0])) + "s² ") if (self.denom_2[0] != 0.0) else ""
+            denominator_2 += (sign + str(self.myround(self.denom_2[1])) + "s ") if (self.denom_2[1] != 0.0) else ""
+            denominator_2 += (sign2 + str(self.myround(self.denom_2[2]))) if (self.denom_2[2] != 0.0) else ""
+
             self.at_2.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_2,denominator_2))
             self.at_2.patch.set_boxstyle("square,pad=0.")
             self.axesTF_2.add_artist(self.at_2)
@@ -384,12 +392,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if(tab == 3):
             sign = "+ " if (self.num_rlc[1] >= 0) else " "
             sign2 = "+ " if (self.num_rlc[2] >= 0) else " "
-            numerator_rlc = str(self.myround(self.num_rlc[0])) + "s² " + sign + str(self.myround(self.num_rlc[1])) + "s " + sign2 + str(self.myround(self.num_rlc[2])) 
+
+            numerator_rlc = (str(self.myround(self.num_rlc[0])) + "s² ") if (self.num_rlc[0] != 0.0) else ""
+            numerator_rlc += (sign + str(self.myround(self.num_rlc[1])) + "s ") if (self.num_rlc[1] != 0.0) else ""
+            numerator_rlc += (sign2 + str(self.myround(self.num_rlc[2]))) if (self.num_rlc[2] != 0.0) else ""
 
             sign = "+ " if (self.denom_rlc[1] >= 0) else " "
             sign2 = "+ " if (self.denom_rlc[2] >= 0) else " "
-            denominator_rlc = str(self.myround(self.denom_rlc[0])) + "s² " + sign + str(self.myround(self.denom_rlc[1])) + "s " + sign2 + str(self.myround(self.denom_rlc[2]))
-            
+           
+            denominator_rlc = (str(self.myround(self.denom_rlc[0])) + "s² ") if (self.denom_rlc[0] != 0.0) else ""
+            denominator_rlc += (sign + str(self.myround(self.denom_rlc[1])) + "s ") if (self.denom_rlc[1] != 0.0) else ""
+            denominator_rlc += (sign2 + str(self.myround(self.denom_rlc[2]))) if (self.denom_rlc[2] != 0.0) else ""
+
             self.at_rlc.txt.set_text('$H(s) = \\dfrac{%s}{%s}$' %(numerator_rlc,denominator_rlc))
             self.at_rlc.patch.set_boxstyle("square,pad=0.")
             self.axesTF_rlc.add_artist(self.at_rlc)
@@ -408,19 +422,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if((filterType_1 == "Pasa Bajos") and (polo_1 > cero_1)):
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Critical)
-                msg.setText("No se introdujeron valores \n correspondientes a un pasa bajos.\n El polo debe ser menor al cero")
+                msg.setText("No se introdujeron valores \ncorrespondientes a un pasa bajos.\nEl polo debe ser menor al cero")
                 msg.setWindowTitle("Warning")
                 msg.exec_()
             elif((filterType_1 == "Pasa Altos") and (polo_1 < cero_1)):
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Critical)
-                msg.setText("No se introdujeron valores \n correspondientes a un pasa altos.\n El polo debe ser mayor al cero")
+                msg.setText("No se introdujeron valores \ncorrespondientes a un pasa altos.\nEl polo debe ser mayor al cero")
                 msg.setWindowTitle("Warning")
                 msg.exec_()
             elif((filterType_1 == "Pasa Todo") and (polo_1 != cero_1)):
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Critical)
-                msg.setText("No se introdujeron valores \n correspondientes a un pasa todo.\n El polo debe ser igual al cero")
+                msg.setText("No se introdujeron valores \ncorrespondientes a un pasa todo.\nEl polo debe ser igual al cero")
                 msg.setWindowTitle("Warning")
                 msg.exec_()
 
@@ -445,7 +459,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except :
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("No puede haber entradas vacias, o con ',' \n No se puede dividir por 0")
+            msg.setText("No puede haber entradas vacias o con ','\nNo se puede dividir por 0")
             msg.setWindowTitle("Error")
             msg.exec_()
 
@@ -474,7 +488,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except :
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("No puede haber entradas vacias, o con ','")
+            msg.setText("No puede haber entradas vacias o con ','")
             msg.setWindowTitle("Error")
             msg.exec_()
 
@@ -518,7 +532,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except :
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("No puede haber entradas vacias, o con ',' \n No se puede dividir por 0")
+            msg.setText("No puede haber entradas vacias o con ','\nNo se puede dividir por 0")
             msg.setWindowTitle("Error")
             msg.exec_()
 
@@ -549,7 +563,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except :
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("No puede haber entradas vacias, o con ','")
+            msg.setText("No puede haber entradas vacias o con ','")
             msg.setWindowTitle("Error")
             msg.exec_()
 
@@ -578,7 +592,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except :
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("No puede haber entradas vacias, o con ','")
+            msg.setText("No puede haber entradas vacias o con ','")
             msg.setWindowTitle("Error")
             msg.exec_()
 
@@ -651,7 +665,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         except :
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Critical)
-            msg.setText("No puede haber entradas vacias, o con ',' ")
+            msg.setText("No puede haber entradas vacias o con ','")
             msg.setWindowTitle("Error")
             msg.exec_()
         
