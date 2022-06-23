@@ -341,7 +341,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.canvasTF_2.draw()
 
         #RLC
-        self.at_rlc = AnchoredText('$H(s) =', prop=dict(size=20), frameon=False, loc='upper left')
+        self.at_rlc = AnchoredText('$H(s) =', prop=dict(size=18), frameon=False, loc='upper left')
         self.at_rlc.patch.set_boxstyle("square,pad=0.")
         self.axesTF_rlc.add_artist(self.at_rlc)
         self.canvasTF_rlc.draw()
